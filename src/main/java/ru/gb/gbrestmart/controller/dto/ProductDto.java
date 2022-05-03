@@ -1,9 +1,6 @@
 package ru.gb.gbrestmart.controller.dto;
-
 import lombok.*;
 import ru.gb.gbrestmart.entity.enums.Status;
-
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;

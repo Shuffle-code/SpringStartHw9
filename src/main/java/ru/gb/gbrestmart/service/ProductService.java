@@ -13,11 +13,9 @@ import ru.gb.gbrestmart.controller.dto.ProductDto;
 import ru.gb.gbrestmart.dao.ProductDao;
 import ru.gb.gbrestmart.entity.Product;
 import ru.gb.gbrestmart.entity.enums.Status;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -62,10 +60,8 @@ public class ProductService {
     public void disable(Long id) {
         Optional<Product> product = productDao.findById(id);
         product.ifPresent(p -> {
-            p.setStatus(Status.DISABLED);
+            p.setStatus(Status.DISABLE);
             productDao.save(p);
         });
     }
-
-
 }

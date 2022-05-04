@@ -4,19 +4,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.gbrestmart.controller.dto.ProductDto;
+import ru.gb.gbrestmart.entity.Cart;
+//import ru.gb.gbrestmart.entity.CartProduct;
 import ru.gb.gbrestmart.entity.Product;
+//import ru.gb.gbrestmart.service.CartProductService;
+import ru.gb.gbrestmart.service.CartService;
 import ru.gb.gbrestmart.service.ProductService;
 
-import javax.validation.executable.ValidateOnExecution;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,10 +24,11 @@ import java.util.stream.Collectors;
 public class ProductRestController {
 
     private final ProductService productService;
-
+    private final CartService cartService;
     @GetMapping
     public List<Product> getProductList() {
         return productService.findAll();
+
     }
 
     @GetMapping("/{productId}")
@@ -64,4 +65,22 @@ public class ProductRestController {
     public void deleteById(@PathVariable("productId") Long id) {
         productService.deleteById(id);
     }
+
+    @PostMapping("/addToCart" + "/{productId}")
+    public ResponseEntity<?> addProductToCart(@PathVariable("productId") Long id) {
+        cartService.addProduct(productService.findById(id));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/cart")
+    public Set<Product> showCart() {
+        return cartService.getProducts();
+    }
+
+    @DeleteMapping("/cartDelete" + "/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteByIdInCart(@PathVariable("productId") Long id) {
+        cartService.deleteProduct(productService.findById(id));
+    }
+
 }

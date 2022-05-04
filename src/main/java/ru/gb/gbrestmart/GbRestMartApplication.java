@@ -9,5 +9,4 @@ public class GbRestMartApplication {
     public static void main(String[] args) {
         SpringApplication.run(GbRestMartApplication.class, args);
     }
-
 }
